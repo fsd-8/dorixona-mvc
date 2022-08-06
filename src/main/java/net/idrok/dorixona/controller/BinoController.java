@@ -4,8 +4,7 @@ import net.idrok.dorixona.model.Bino;
 import net.idrok.dorixona.service.BinoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,13 @@ public class BinoController {
     @GetMapping("/bino")
     public String binoPage(Model model){
         model.addAttribute("binolar", binoService.getAll());
+        model.addAttribute("bino", new Bino());
         return "bino";
+    }
+    @PostMapping("/bino/update")
+    public String binoUpdate(@ModelAttribute("bino") Bino bino, Model model){
+        binoService.create(bino);
+        return "redirect:/pages/bino";
     }
 
 

@@ -17,27 +17,36 @@ public class BinoRepository {
     public BinoRepository(DataSource ds) {
         this.ds = ds;
     }
-
-
-    //    public List<Bino> findAll() {
-//        List<Bino> binolar = new ArrayList<>();
-//        binolar.add(new Bino(1L, "Asosiy", "asosiy bino"));
-//        binolar.add(new Bino(2L, "qoshimcha", "f bino"));
-//        binolar.add(new Bino(3L, "Omborxona", "a bino"));
-//        return binolar;
-//    }
-    public List<Bino> findAll() {
-        String sql = "...";
-        try {
-            PreparedStatement ps = ds.ps(sql);
-            ResultSet rs = ps.executeQuery();
-            ArrayList<Bino> binolar = new ArrayList<>();
-            //...
-            return binolar;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-
+    List<Bino> binolar = new ArrayList<>();
+    {
+        binolar.add(new Bino(1L, "Asosiy", "asosiy bino"));
+        binolar.add(new Bino(2L, "qoshimcha", "f bino"));
+        binolar.add(new Bino(3L, "Omborxona", "a bino"));
     }
+
+
+        public List<Bino> findAll() {
+
+        return binolar;
+    }
+
+    public Bino save(Bino bino) {
+        bino.setId((long) (binolar.size()+1));
+        binolar.add(bino);
+        return bino;
+    }
+//    public List<Bino> findAll() {
+//        String sql = "...";
+//        try {
+//            PreparedStatement ps = ds.ps(sql);
+//            ResultSet rs = ps.executeQuery();
+//            ArrayList<Bino> binolar = new ArrayList<>();
+//            //...
+//            return binolar;
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//
+//    }
 }

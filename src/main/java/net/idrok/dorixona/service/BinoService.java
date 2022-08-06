@@ -20,4 +20,8 @@ public class BinoService {
     public List<Bino> getAll(){
        return binoRepository.findAll();
     }
+
+    public Bino create(Bino bino) {
+        return binoRepository.save(bino);
+    }
 }
