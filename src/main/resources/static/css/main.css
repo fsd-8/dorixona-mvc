@@ -1,0 +1,14 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    background-color: aqua;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+td, th{
+    border: solid 1px gray;
+    padding: 5px;
+}

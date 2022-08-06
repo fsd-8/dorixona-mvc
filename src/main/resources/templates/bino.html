@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bino boshqaruvi</title>
+    <link href="/css/main.css" rel="stylesheet" type="text/css" >
+</head>
+<body>
+ <h1>Bino boshqaruvi</h1>
+ <table>
+     <tr>
+         <th>ID</th>
+         <th>NOM</th>
+         <th>INFO</th>
+     </tr>
+
+     <tr th:each="b: ${binolar}">
+         <td th:text="${b.id}"> </td>
+         <td th:text="${b.nom}"> </td>
+         <td th:text="${b.info}"> </td>
+     </tr>
+
+ </table>
+</body>
+</html>
