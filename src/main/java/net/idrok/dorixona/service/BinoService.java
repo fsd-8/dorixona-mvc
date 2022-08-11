@@ -21,7 +21,7 @@ public class BinoService {
        return binoRepository.findAll();
     }
 
-    public Bino create(Bino bino) {
-        return binoRepository.save(bino);
+    public boolean create(Bino bino) {
+        return binoRepository.create(bino);
     }
 }

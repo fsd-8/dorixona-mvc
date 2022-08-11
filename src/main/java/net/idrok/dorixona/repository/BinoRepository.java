@@ -1,8 +1,7 @@
 package net.idrok.dorixona.repository;
 
-import net.idrok.dorixona.config.DataSource;
 import net.idrok.dorixona.model.Bino;
-import org.springframework.stereotype.Repository;
+import net.idrok.dorixona.config.DataSource;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,43 +9,84 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 @Repository
 public class BinoRepository {
-    private final DataSource ds;
 
-    public BinoRepository(DataSource ds) {
-        this.ds = ds;
-    }
-    List<Bino> binolar = new ArrayList<>();
-    {
-        binolar.add(new Bino(1L, "Asosiy", "asosiy bino"));
-        binolar.add(new Bino(2L, "qoshimcha", "f bino"));
-        binolar.add(new Bino(3L, "Omborxona", "a bino"));
+    private final DataSource dataSource;
+    public BinoRepository(DataSource dataSource){
+        this.dataSource = dataSource;
     }
 
-
-        public List<Bino> findAll() {
-
-        return binolar;
+    public  List<Bino> findAll() {
+        String sql = "select * from bino;";
+        try (PreparedStatement ps = dataSource.ps(sql)) {
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Bino> list = new ArrayList<>();
+            while (rs.next()) {
+              list.add(new Bino(rs.getLong("id"), rs.getString("nom"), rs.getString("info")));
+            }
+            rs.close();
+            ps.close();
+            return list;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
+    public  List<Bino> findAll(String key) {
+        String sql = "select * from bino WHERE nom ilike ? or info ilike ?;";
+        try (PreparedStatement ps = dataSource.ps(sql)) {
+            ps.setString(1, "%"+key+"%");
+            ps.setString(2, "%"+key+"%");
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Bino> list = new ArrayList<>();
+            while (rs.next()) {
+              list.add(new Bino(rs.getLong("id"), rs.getString("nom"), rs.getString("info")));
+            }
+            rs.close();
+            ps.close();
+            return list;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
     }
 
-    public Bino save(Bino bino) {
-        bino.setId((long) (binolar.size()+1));
-        binolar.add(bino);
-        return bino;
+    public  boolean create(Bino bino)  {
+        String sql = "insert into bino(nom, info) values (?, ?);";
+        try (PreparedStatement ps = dataSource.ps(sql)) {
+            ps.setString(1, bino.getNom());
+            ps.setString(2, bino.getInfo());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+
+        }
     }
-//    public List<Bino> findAll() {
-//        String sql = "...";
-//        try {
-//            PreparedStatement ps = ds.ps(sql);
-//            ResultSet rs = ps.executeQuery();
-//            ArrayList<Bino> binolar = new ArrayList<>();
-//            //...
-//            return binolar;
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//
-//    }
+    public  boolean update(Bino bino)  {
+        String sql = "update bino set nom = ?, info = ? where id = ?;";
+        try (PreparedStatement ps = dataSource.ps(sql)) {
+            ps.setString(1, bino.getNom());
+            ps.setString(2, bino.getInfo());
+            ps.setLong(3, bino.getId());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
+
+    public  boolean delete(Bino bino)  {
+        String sql = "delete from bino where id = ?;";
+        try (PreparedStatement ps = dataSource.ps(sql)) {
+            ps.setLong(1, bino.getId());
+            return  ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
 }
