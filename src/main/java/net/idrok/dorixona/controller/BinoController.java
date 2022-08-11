@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/pages")
+@RequestMapping("/pages/bino")
 public class BinoController {
 
     private final BinoService binoService;
@@ -20,15 +20,34 @@ public class BinoController {
     }
 
 
-    @GetMapping("/bino")
+    @GetMapping()
     public String binoPage(Model model){
         model.addAttribute("binolar", binoService.getAll());
         model.addAttribute("bino", new Bino());
         return "bino";
     }
-    @PostMapping("/bino/update")
-    public String binoUpdate(@ModelAttribute("bino") Bino bino, Model model){
+    @PostMapping("create")
+    public String binoCreate(@ModelAttribute("bino") Bino bino, Model model){
         binoService.create(bino);
+        return "redirect:/pages/bino";
+    }
+    @GetMapping("/{id}")
+    public String binoUpdateRequest(@PathVariable Long id, Model model){
+        model.addAttribute("edit", true);
+        model.addAttribute("bino", binoService.getById(id));
+        model.addAttribute("binolar", binoService.getAll());
+
+        return "bino";
+    }
+    @PostMapping("update")
+    public String binoUpdate(@ModelAttribute("bino") Bino bino, Model model){
+        binoService.update(bino);
+        return "redirect:/pages/bino";
+    }
+
+    @GetMapping("delete/{id}")
+    public String delete(@PathVariable Long id){
+        binoService.delete(id);
         return "redirect:/pages/bino";
     }
 

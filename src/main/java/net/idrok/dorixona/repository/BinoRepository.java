@@ -80,10 +80,32 @@ public class BinoRepository {
     }
 
     public  boolean delete(Bino bino)  {
+        return deleteById(bino.getId());
+    }
+
+    public boolean deleteById(Long id) {
         String sql = "delete from bino where id = ?;";
         try (PreparedStatement ps = dataSource.ps(sql)) {
-            ps.setLong(1, bino.getId());
+            ps.setLong(1, id);
             return  ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Bino findById(Long id) {
+        String sql = "select * from bino where id = ?;";
+        try (PreparedStatement ps = dataSource.ps(sql)) {
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            Bino bino = null;
+            if (rs.next()) {
+              bino =  new Bino(rs.getLong("id"), rs.getString("nom"), rs.getString("info"));
+            }
+            rs.close();
+            ps.close();
+            return bino;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e);

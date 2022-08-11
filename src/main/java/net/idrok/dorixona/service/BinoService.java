@@ -24,4 +24,18 @@ public class BinoService {
     public boolean create(Bino bino) {
         return binoRepository.create(bino);
     }
+    public boolean delete(Long id) {
+        return binoRepository.deleteById(id);
+    }
+
+
+    public Bino getById(Long id) {
+
+        return binoRepository.findById(id);
+    }
+
+
+    public boolean update(Bino bino) {
+        return binoRepository.update(bino);
+    }
 }
