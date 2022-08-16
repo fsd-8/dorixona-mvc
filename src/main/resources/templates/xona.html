@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col" th:if="!${edit}">
                 <h1>Xona qo'shish</h1>
-                <form  th:action="@{/pages/bino/create}" th:object="${bino}" method="post">
+                <form  th:action="@{/pages/xona/create}" th:object="${xona}" method="post">
 
                     <div class="form-group">
                         <label for="nom">Nom</label>
@@ -51,13 +51,13 @@
 
             </div>
             <div class="col" th:if="${edit}">
-                <h1>Bino tahrirlash</h1>
-                <form action="#" th:action="@{/pages/bino/update}" th:object="${bino}" method="post">
+                <h1>xona tahrirlash</h1>
+                <form action="#" th:action="@{/pages/xona/update}" th:object="${xona}" method="post">
                     <div class="form-group">
                         <label for="id">ID</label>
                         <input type="number" readonly="readonly" th:field="*{id}" name="id" id="id" class="form-control" placeholder="ID"
-                            aria-describedby="BINOID">
-                        <small id="BINOID" class="text-muted">BINOD ID</small>
+                            aria-describedby="xonaID">
+                        <small id="xonaID" class="text-muted">xonaD ID</small>
                     </div>
                     <div class="form-group">
                         <label for="nom">Nom</label>
@@ -68,6 +68,7 @@
                     <div class="form-group">
                         <label for="bino">Bino</label>
                         <select th:field="*{bino.id}" class="form-control" name="bino" id="bino">
+                            <option th:value="*{bino.id}" th:text="*{bino.nom}" selected></option>
                             <option th:each="b: ${binolar}" th:value="${b.id}" th:text="${b.nom}" ></option>
                         </select>
                     </div>
@@ -87,25 +88,28 @@
 
             </div>
             <div class="col">
-
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
                 <table class="table text-center table-bordered">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>NOM</th>
-                            <th>BINO</th>
+                            <th>Bino</th>
                             <th>INFO</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="b: ${binolar}">
+                        <tr th:each="b: ${xonalar}">
                             <td th:text="${b.id}"> </td>
                             <td th:text="${b.nom}"> </td>
-                            <td th:text="${b.nom}"> </td>
+                            <td th:text="${b.bino.nom}"> </td>
                             <td th:text="${b.info}"> </td>
                             <td>
-                                <a type="button" th:attr="href=|/pages/bino/${b.id}|"    class="btn btn-primary btn-xs">
+                                <a type="button" th:attr="href=|/pages/xona/${b.id}|"    class="btn btn-primary btn-xs">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </a>
                                 <button type="button" class="btn btn-danger btn-xs" th:attr="onclick=|setId('${b.id}')|" 
@@ -151,17 +155,17 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Bino o'chirish</h5>
+                    <h5 class="modal-title">xona o'chirish</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                 </div>
                 <div class="modal-body">
-                    Siz rostdan ham ushbu binoni o'chirib tashlamoqchimisiz
+                    Siz rostdan ham ushbu xonani o'chirib tashlamoqchimisiz
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Bekor qilsih</button>
-                    <a href="/pages/bino/delete/" id="deleteBtn" class="btn btn-danger">O'chirish</a>
+                    <a href="/pages/xona/delete/" id="deleteBtn" class="btn btn-danger">O'chirish</a>
                 </div>
             </div>
         </div>
@@ -171,7 +175,7 @@
         function setId(id){
             let deleteBtn = document.getElementById('deleteBtn');
             if(deleteBtn){
-                deleteBtn.setAttribute('href', '/pages/bino/delete/'+id);
+                deleteBtn.setAttribute('href', '/pages/xona/delete/'+id);
             }
         }
     </script>
