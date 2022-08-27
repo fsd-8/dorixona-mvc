@@ -1,9 +1,15 @@
 package net.idrok.dorixona.model;
 
 
+import javax.persistence.*;
+
+@Entity
 public class Xona {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    @ManyToOne
     private Bino bino;
     private String info;
 

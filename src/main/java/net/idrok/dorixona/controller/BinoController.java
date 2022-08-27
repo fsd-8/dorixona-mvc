@@ -2,6 +2,8 @@ package net.idrok.dorixona.controller;
 
 import net.idrok.dorixona.model.Bino;
 import net.idrok.dorixona.service.BinoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +23,15 @@ public class BinoController {
 
 
     @GetMapping()
-    public String binoPage(Model model){
-        model.addAttribute("binolar", binoService.getAll());
+    public String binoPage(@RequestParam(name = "qidiruv", required = false) String query, Pageable pageable, Model model){
+        if(query == null) query = "";
+        Page<Bino> page = binoService.getAll(query, pageable);
+        model.addAttribute("binoPage", page);
         model.addAttribute("bino", new Bino());
         return "bino";
     }
+
+
     @PostMapping("create")
     public String binoCreate(@ModelAttribute("bino") Bino bino, Model model){
         binoService.create(bino);
@@ -50,6 +56,5 @@ public class BinoController {
         binoService.delete(id);
         return "redirect:/pages/bino";
     }
-
 
 }

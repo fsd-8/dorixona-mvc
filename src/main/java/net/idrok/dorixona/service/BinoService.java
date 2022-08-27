@@ -2,6 +2,8 @@ package net.idrok.dorixona.service;
 
 import net.idrok.dorixona.model.Bino;
 import net.idrok.dorixona.repository.BinoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,21 +23,24 @@ public class BinoService {
        return binoRepository.findAll();
     }
 
-    public boolean create(Bino bino) {
-        return binoRepository.create(bino);
+    public Page<Bino> getAll(String query, Pageable pageable){
+       return binoRepository.findAllByQuery(query, pageable);
     }
-    public boolean delete(Long id) {
-        return binoRepository.deleteById(id);
+
+    public Bino create(Bino bino) {
+        return binoRepository.save(bino);
+    }
+    public void delete(Long id) {
+         binoRepository.deleteById(id);
     }
 
 
     public Bino getById(Long id) {
-
-        return binoRepository.findById(id);
+        return binoRepository.findById(id).orElseThrow(()->new RuntimeException("Xatolik"));
     }
 
 
-    public boolean update(Bino bino) {
-        return binoRepository.update(bino);
+    public Bino update(Bino bino) {
+        return binoRepository.save(bino);
     }
 }

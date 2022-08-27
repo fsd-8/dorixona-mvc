@@ -21,21 +21,21 @@ public class XonaService {
        return xonaRepository.findAll();
     }
 
-    public boolean create(Xona xona) {
-        return xonaRepository.create(xona);
+    public Xona create(Xona xona) {
+        return xonaRepository.save(xona);
     }
-    public boolean delete(Long id) {
-        return xonaRepository.deleteById(id);
+    public void delete(Long id) {
+         xonaRepository.deleteById(id);
     }
 
 
     public Xona getById(Long id) {
 
-        return xonaRepository.findById(id);
+        return xonaRepository.findById(id).orElseThrow(()->new RuntimeException("not found"));
     }
 
 
-    public boolean update(Xona xona) {
-        return xonaRepository.update(xona);
+    public Xona update(Xona xona) {
+        return xonaRepository.save(xona);
     }
 }
