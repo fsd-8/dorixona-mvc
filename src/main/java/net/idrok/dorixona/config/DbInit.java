@@ -3,8 +3,8 @@ package net.idrok.dorixona.config;
 
 import net.idrok.dorixona.model.Bino;
 import net.idrok.dorixona.model.Xona;
-import net.idrok.dorixona.service.BinoService;
 import net.idrok.dorixona.service.XonaService;
+import net.idrok.dorixona.service.impl.BinoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
 public class DbInit {
 
     @Autowired
-    BinoService binoService;
+    BinoServiceImpl binoService;
 
     @Autowired
     XonaService xonaService;

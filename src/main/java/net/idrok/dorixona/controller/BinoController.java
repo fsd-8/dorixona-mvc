@@ -2,14 +2,12 @@ package net.idrok.dorixona.controller;
 
 import net.idrok.dorixona.model.Bino;
 import net.idrok.dorixona.service.BinoService;
+import net.idrok.dorixona.service.impl.BinoServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/pages/bino")

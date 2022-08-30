@@ -1,46 +1,18 @@
 package net.idrok.dorixona.service;
 
 import net.idrok.dorixona.model.Bino;
-import net.idrok.dorixona.repository.BinoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class BinoService {
+public interface BinoService extends CommonCrud<Bino>{
+    /**
+     * Berilgan query bo'yicha filterlaydi va pageable paramter bo'yicha sahifalaydi, saralaydi
+     * @param query
+     * @param pageable
+     * @return page
+     */
+    public Page<Bino> getAll(String query, Pageable pageable);
 
-    private final BinoRepository binoRepository;
-
-    public BinoService(BinoRepository binoRepository) {
-        this.binoRepository = binoRepository;
-    }
-
-
-    public List<Bino> getAll(){
-       return binoRepository.findAll();
-    }
-
-    public Page<Bino> getAll(String query, Pageable pageable){
-       return binoRepository.findAllByQuery(query, pageable);
-    }
-
-    public Bino create(Bino bino) {
-        return binoRepository.save(bino);
-    }
-    public void delete(Long id) {
-         binoRepository.deleteById(id);
-    }
-
-
-    public Bino getById(Long id) {
-        return binoRepository.findById(id).orElseThrow(()->new RuntimeException("Xatolik"));
-    }
-
-
-    public Bino update(Bino bino) {
-        return binoRepository.save(bino);
-    }
 }

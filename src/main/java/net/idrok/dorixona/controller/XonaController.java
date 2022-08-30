@@ -3,6 +3,7 @@ package net.idrok.dorixona.controller;
 import net.idrok.dorixona.model.Xona;
 import net.idrok.dorixona.service.BinoService;
 import net.idrok.dorixona.service.XonaService;
+import net.idrok.dorixona.service.impl.BinoServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
