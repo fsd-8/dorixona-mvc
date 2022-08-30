@@ -19,7 +19,7 @@ public class DbInit {
     @Autowired
     XonaService xonaService;
 
-    @PostConstruct
+//    @PostConstruct
     public void fillBino(){
         for (int i = 1; i <= 500; i++) {
             Bino bino = new Bino();
@@ -33,7 +33,7 @@ public class DbInit {
             }
         }
     }
-     @PostConstruct
+//     @PostConstruct
     public void fillXona(){
         for (int i = 1; i <= 500; i++) {
             Bino bino = new Bino();
