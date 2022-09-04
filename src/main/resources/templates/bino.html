@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col" th:if="!${edit}">
                 <h1>Bino qo'shish</h1>
-                <form  th:action="@{/pages/bino/create}" th:object="${bino}" method="post">
+                <form  th:action="@{/pages/bino/create}" th:object="${bino}" method="post" enctype="multipart/form-data">
 
                     <div class="form-group">
                         <label for="nom">Nom</label>
@@ -33,6 +33,12 @@
                         <input type="text" name="info" th:field="*{info}" id="info" class="form-control"
                             placeholder="INFO" aria-describedby="INFO ">
                         <small id="INFO " class="text-muted">INFO</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="rasm">Rasm</label>
+                        <input type="file"  name="file" id="rasm" class="form-control"
+                               placeholder="rasm . .." aria-describedby="rasm2">
+                        <small id="rasm2" class="text-muted">Rasm tanlang</small>
                     </div>
                     <div>
                         <input name="submit" id="submit" class="btn btn-primary" type="submit" value="Qo'shish">
@@ -82,8 +88,10 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Rasm</th>
                             <th>NOM</th>
                             <th>INFO</th>
+
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -91,6 +99,8 @@
                         <tr th:if="${binoPage.empty}"> <td colspan="4">Hech qanday ma'lumot topilmadi</td> </tr>
                         <tr th:each="b: ${binoPage.content}">
                             <td th:text="${b.id}"> </td>
+                            <td> <img th:src="@{/files/{name}(name=${b.rasm})}" height="60"></td>
+
                             <td th:text="${b.nom}"> </td>
                             <td th:text="${b.info}"> </td>
                             <td>

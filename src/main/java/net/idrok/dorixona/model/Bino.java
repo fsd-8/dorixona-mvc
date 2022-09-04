@@ -13,6 +13,8 @@ public class Bino {
     private String nom;
     private String info;
 
+    private String rasm;
+
     public Bino() {
     }
 
@@ -44,5 +46,13 @@ public class Bino {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public String getRasm() {
+        return rasm;
+    }
+
+    public void setRasm(String rasm) {
+        this.rasm = rasm;
     }
 }
