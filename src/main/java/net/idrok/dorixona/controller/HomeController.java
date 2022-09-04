@@ -4,12 +4,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.idrok.dorixona.model.Lavozim;
+import net.idrok.dorixona.model.User;
+import net.idrok.dorixona.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.net.HttpCookie;
@@ -18,6 +19,9 @@ import java.time.Instant;
 
 @Controller
 public class HomeController {
+
+    @Autowired
+    private UserRepository userRepository;
     
     @GetMapping()
     public String homePage(HttpServletRequest req, HttpServletResponse res, Model model){
@@ -27,6 +31,13 @@ public class HomeController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpServletRequest req, HttpServletResponse res, Model model){
         return "login";
+    }
+  @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String register(@ModelAttribute User user, Model model){
+        user.setAktive(true);
+        user.setLavozim(Lavozim.USER);
+        userRepository.save(user);
+        return "redirect:login";
     }
    @RequestMapping(value = "/access-denied", method = RequestMethod.GET)
     public String accessDenied(HttpServletRequest req, HttpServletResponse res, Model model){
