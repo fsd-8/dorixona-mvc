@@ -58,7 +58,7 @@
             </div>
             <div class="col" th:if="${edit}">
                 <h1>xona tahrirlash</h1>
-                <form action="#" th:action="@{/pages/xona/update}" th:object="${xona}" method="post">
+                <form action="#" th:action="@{/pages/xona/update}" th:object="${xona}" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="id">ID</label>
                         <input type="number" readonly="readonly" th:field="*{id}" name="id" id="id" class="form-control" placeholder="ID"
@@ -83,6 +83,14 @@
                         <input type="text" name="info" th:field="*{info}" id="info" class="form-control"
                             placeholder="INFO" aria-describedby="INFO ">
                         <small id="INFO " class="text-muted">INFO</small>
+                    </div>
+
+                    <div class="form-group">
+                        <img th:src="@{/pages/xona/rasm/{id}(id=*{id})}" height="80">
+                        <label for="rasm">Rasm</label>
+                        <input type="file"  name="rasmcha" id="rasm" class="form-control"
+                               placeholder="rasm . .." aria-describedby="rasm2">
+                        <small id="rasm2" class="text-muted">Rasm tanlang. Tanlamasangiz o'zgarishsiz qoladi.</small>
                     </div>
                     <div>
                         <input name="submit" id="submit" class="btn btn-primary" type="submit" value="Tahrirlash">

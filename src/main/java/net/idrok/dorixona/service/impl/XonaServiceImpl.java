@@ -36,7 +36,14 @@ public class XonaServiceImpl implements XonaService {
 
     @Override
     public Xona update(Xona xona) {
-        return xonaRepository.save(xona);
+        Xona old = getById(xona.getId());
+        old.setNom(xona.getNom());
+        old.setBino(xona.getBino());
+        old.setInfo(xona.getInfo());
+        if(xona.getRasm() != null){
+            old.setRasm(xona.getRasm());
+        }
+        return xonaRepository.save(old);
     }
 
     @Override

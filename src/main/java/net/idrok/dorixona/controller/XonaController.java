@@ -37,16 +37,23 @@ public class XonaController {
     @GetMapping("/rasm/{id}")
     public void downloadImage(@PathVariable Long id, HttpServletResponse res) throws IOException {
         Xona xona = xonaService.getById(id);
-        byte[] rasm = xona.getRasm();
-        res.setContentType(MimeTypeUtils.APPLICATION_OCTET_STREAM.getType());
-        res.setHeader("Content-Disposition", "attachment; filename=" + xona.getNom()+"_rasm.jpg");
-        res.setContentLength(rasm.length);
+        if(xona.getRasm() != null){
+            byte[] rasm = xona.getRasm();
+            res.setContentType(MimeTypeUtils.APPLICATION_OCTET_STREAM.getType());
+            //res.setHeader("Content-Disposition", "attachment; filename=" + xona.getNom()+"_rasm.jpg");
+            res.setContentLength(rasm.length);
 
-        OutputStream os = res.getOutputStream();
-        try {
-            os.write(rasm, 0, rasm.length);
-        } finally {
-            os.close();
+            OutputStream os = res.getOutputStream();
+            try {
+                os.write(rasm, 0, rasm.length);
+            } finally {
+                os.close();
+            }
+
+        } else {
+
+            throw new RuntimeException("Not found");
+
         }
 
 
@@ -54,7 +61,7 @@ public class XonaController {
     @PostMapping("create")
     public String xonaCreate(@ModelAttribute("xona") Xona xona, @RequestParam("rasmcha") MultipartFile rasm, Model model) throws IOException {
        if(rasm != null) xona.setRasm(rasm.getBytes());
-        xonaService.create(xona);
+       xonaService.create(xona);
         return "redirect:/pages/xona";
     }
     @GetMapping("/{id}")
@@ -67,7 +74,8 @@ public class XonaController {
         return "xona";
     }
     @PostMapping("update")
-    public String XonaUpdate(@ModelAttribute("xona") Xona xona, Model model){
+    public String XonaUpdate(@ModelAttribute("xona") Xona xona,@RequestParam(name = "rasmcha", required = false) MultipartFile rasm,  Model model) throws IOException {
+        if(rasm != null && !rasm.isEmpty()) xona.setRasm(rasm.getBytes());
         xonaService.update(xona);
         return "redirect:/pages/xona";
     }
