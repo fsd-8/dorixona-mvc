@@ -1,5 +1,6 @@
 package net.idrok.dorixona.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,16 +12,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.net.HttpCookie;
 import java.net.http.HttpHeaders;
+import java.time.Instant;
 
 @Controller
 public class HomeController {
     
     @GetMapping()
-    public String homePage(@RequestHeader HttpHeaders httpHeaders, Model model){
+    public String homePage(HttpServletRequest req, HttpServletResponse res, Model model){
         // o'qish
-        String ism = httpHeaders.firstValue("ism").orElse("Ism yo'q");
-        model.addAttribute("ism", ism);
+        Cookie[] cookies = req.getCookies();
+        int soni = 0;
+        if(cookies != null)
+        for(Cookie c: cookies){
+            if(c.getName().equals("soni")){
+                 soni = Integer.parseInt(c.getValue());
+                break;
+            }
+        }
+        soni++;
+        Cookie cookie = new Cookie("soni", soni+"");
+        cookie.setMaxAge(Instant.now().getNano() + 1 * 24 * 60 * 60 * 1000);
+        res.addCookie(cookie);
+
+        model.addAttribute("soni", soni);
         return "index";
     }
 
