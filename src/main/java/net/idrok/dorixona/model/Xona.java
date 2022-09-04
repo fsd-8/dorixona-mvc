@@ -13,9 +13,8 @@ public class Xona {
     private Bino bino;
     private String info;
 
-
-    
-
+    @Lob // Large object
+    private byte[] rasm;
 
 
     public Xona() {
@@ -51,6 +50,11 @@ public class Xona {
         this.info = info;
     }
 
+    public byte[] getRasm() {
+        return rasm;
+    }
 
-    
+    public void setRasm(byte[] rasm) {
+        this.rasm = rasm;
+    }
 }

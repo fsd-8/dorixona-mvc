@@ -20,27 +20,33 @@
         <div class="row">
             <div class="col" th:if="!${edit}">
                 <h1>Xona qo'shish</h1>
-                <form  th:action="@{/pages/xona/create}" th:object="${xona}" method="post">
+                <form  th:action="@{/pages/xona/create}"  method="post" enctype="multipart/form-data">
 
                     <div class="form-group">
                         <label for="nom">Nom</label>
-                        <input type="text" th:field="*{nom}" name="nom" id="nom" class="form-control"
+                        <input type="text"  name="nom" id="nom" class="form-control"
                             placeholder="NOM . .." aria-describedby="nom">
                         <small id="NOM" class="text-muted">NOM KIRITISH</small>
                     </div>
                     <div class="form-group">
                         <label for="bino">Bino</label>
-                        <select th:field="*{bino.id}" class="form-control" name="bino" id="bino">
+                        <select class="form-control" name="bino" id="bino">
                             <option th:each="b: ${binolar}" th:value="${b.id}" th:text="${b.nom}" ></option>
                         </select>
                     </div>
+
                     <div class="form-group">
                         <label for="info">INFO</label>
-                        <input type="text" name="info" th:field="*{info}" id="info" class="form-control"
-                            placeholder="INFO" aria-describedby="INFO ">
-                        <small id="INFO " class="text-muted">INFO</small>
+                        <input type="text" name="info"  id="info" class="form-control"
+                            placeholder="INFO" aria-describedby="INFO2">
+                        <small id="INFO2" class="text-muted">INFO</small>
                     </div>
-
+                    <div class="form-group">
+                        <label for="rasm">Rasm</label>
+                        <input type="file"  name="rasmcha" id="rasm" class="form-control"
+                               placeholder="rasm . .." aria-describedby="rasm2">
+                        <small id="rasm2" class="text-muted">Rasm tanlang</small>
+                    </div>
                     <div>
                         <input name="submit" id="submit" class="btn btn-primary" type="submit" value="Qo'shish">
                         <button type="reset" class="btn btn-warning">Tozalash</button>
@@ -96,6 +102,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>RASM</th>
                             <th>NOM</th>
                             <th>Bino</th>
                             <th>INFO</th>
@@ -105,6 +112,7 @@
                     <tbody>
                         <tr th:each="b: ${xonalar}">
                             <td th:text="${b.id}"> </td>
+                            <td> <img th:src="@{/pages/xona/rasm/{id}(id=${b.id})}" height="60"></td>
                             <td th:text="${b.nom}"> </td>
                             <td th:text="${b.bino.nom}"> </td>
                             <td th:text="${b.info}"> </td>
