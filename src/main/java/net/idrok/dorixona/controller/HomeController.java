@@ -21,46 +21,13 @@ public class HomeController {
     
     @GetMapping()
     public String homePage(HttpServletRequest req, HttpServletResponse res, Model model){
-        // o'qish
-        Cookie[] cookies = req.getCookies();
-        int soni = 0;
-        if(cookies != null)
-        for(Cookie c: cookies){
-            if(c.getName().equals("soni")){
-                 soni = Integer.parseInt(c.getValue());
-                break;
-            }
-        }
-        soni++;
-        Cookie cookie = new Cookie("soni", soni+"");
-        cookie.setMaxAge(Instant.now().getNano() + 1 * 24 * 60 * 60 * 1000);
-        res.addCookie(cookie);
-
-        model.addAttribute("soni", soni);
         return "index";
     }
+    @GetMapping("/login")
+    public String login(HttpServletRequest req, HttpServletResponse res, Model model){
+        return "login";
+    }
 
-//    @GetMapping()
-//    public String homePage(@RequestHeader("ism") String ism, Model model){
-//        // o'qish
-//        if(ism != null){
-//            model.addAttribute("ism", ism);
-//        }
-//        return "index";
-//    }
-
-
-//    @GetMapping()
-//    public String homePage(HttpServletRequest req, HttpServletResponse res, Model model){
-//        // o'qish
-//        String ism = req.getHeader("ism");
-//        if(ism != null){
-//            model.addAttribute("ism", ism);
-//        }
-//        // yozish
-//        res.setHeader("familiya", "Qayum");
-//        return "index";
-//    }
 
 
     @RequestMapping(value = "errors", method = RequestMethod.GET)
