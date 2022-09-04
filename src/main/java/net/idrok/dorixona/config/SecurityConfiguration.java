@@ -1,7 +1,11 @@
 package net.idrok.dorixona.config;
 
+import net.idrok.dorixona.security.SecUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -15,6 +19,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private  SecUserService secUserService;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -22,8 +30,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**", "/js/**", "/images/**").permitAll() // asset files
                 .antMatchers("/").permitAll() // homepage
                 .antMatchers("/login").permitAll() // login page
-                .antMatchers("/pages/bino").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/pages/xona").hasRole("ADMIN")
+                .antMatchers("/pages/bino").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/pages/xona").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated() // others blocked
                 .and()
 
@@ -37,24 +45,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
-                .permitAll();
+                .permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/access-denied");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN")
-                .and()
-                .withUser("user")
-                .password(passwordEncoder().encode("user"))
-                .roles("USER");
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(secUserService);
+        provider.setPasswordEncoder(passwordEncoder());
+        auth.authenticationProvider(provider);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
+
     }
 
     @Bean()

@@ -21,11 +21,16 @@ public class HomeController {
     
     @GetMapping()
     public String homePage(HttpServletRequest req, HttpServletResponse res, Model model){
+
         return "index";
     }
-    @GetMapping("/login")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpServletRequest req, HttpServletResponse res, Model model){
         return "login";
+    }
+   @RequestMapping(value = "/access-denied", method = RequestMethod.GET)
+    public String accessDenied(HttpServletRequest req, HttpServletResponse res, Model model){
+        return "access-denied";
     }
 
 

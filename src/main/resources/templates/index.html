@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
   <head>
     <title>Bosh sahifa</title>
     <!-- Required meta tags -->
@@ -16,8 +17,11 @@
         <p class="lead">Dorixona boshqaruv tizimi</p>
         <hr class="my-2">
     </div>
-  <h1>Siz saytga <th:block th:text="${soni}"></th:block> marta kirdingiz</h1>
 
+    <h2 sec:authorize="isAuthenticated()">
+      Username: <th:block sec:authentication="principal.username"></th:block>
+      Enabled: <th:block sec:authentication="principal.enabled"></th:block>
+    </h2>
 
     
  
